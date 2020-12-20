@@ -1,0 +1,34 @@
+language: erlang
+branches:
+        only:
+                - master
+notifications:
+        email: mongoose-im@erlang-solutions.com
+
+otp_release:
+        - 21.0
+        - 20.0
+        - 19.3
+
+sudo: required
+
+services:
+        - docker
+
+install:
+       - make
+
+before_script:
+        - make mongooseim-start
+
+script:
+        - make test
+        - make ct
+        - make dialyzer
+
+after_script:
+        - make mongooseim-stop
+
+cache:
+    directories:
+        - $HOME/.cache/rebar3
